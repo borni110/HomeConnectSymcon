@@ -574,6 +574,13 @@ trait HomeConnectHelper
             'value' => $setting['value']
         ];
 
+        /*
+        echo "Gerätetyp: " .$type."\n";
+        echo "1. Array data[]: ";
+        print_r($data);
+        echo "\n";
+        */
+
         // check for valid mapper
         if ($mapper = HomeConnectConstants::get($setting['key'])) {
             if (!is_array($mapper)) {
@@ -584,6 +591,12 @@ trait HomeConnectHelper
 
             // convert key to human readable name
             $data['key'] = $mapper['name'];
+            
+            /*
+            echo "2. Array data[] nach Namensänderung: ";
+            print_r($data);
+            echo "\n";
+            */
 
             // convert values, if present
             if (isset($mapper['values'])) {
@@ -600,6 +613,16 @@ trait HomeConnectHelper
                     }
                 }
 
+                /*
+                echo "3. Array data[], Name und Wert angepasst: ";
+                print_r($data);
+                echo "\n";
+
+                echo "4. Array values[]: ";
+                print_r($values);
+                echo "\n";
+                */
+                
                 // attach custom profile
                 $data['custom_profile'] = array_flip($values);
 
@@ -615,6 +638,15 @@ trait HomeConnectHelper
                 // detach custom profile
                 // convert value to string
                 else if (count($values) == 1) {
+                    /*
+                    echo "4. Array data[custom_profile]:";
+                    print_r($data['custom_profile']);
+                    echo "\n";
+                    echo "5. Array data[value]: "; 
+                    print_r($data['value']);
+                    echo "\n";
+                    */
+                    
                     $data['value'] = $this->Translate($data['custom_profile'][$data['value']]);
                     $data['custom_profile'] = '~String';
                 }

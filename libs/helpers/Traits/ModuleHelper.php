@@ -146,6 +146,7 @@ trait ModuleHelper
         // remove whitespaces
         $name = trim($name);
         if (is_string($value)) {
+            $this->_log('HomeConnect', "CreateVariableByIdentifier, is_string(value)==true, value: >".$value. "<");
             $value = trim($value);
         }
 
@@ -165,9 +166,13 @@ trait ModuleHelper
         // get variable id, if exists
         $variable_created = false;
         $variable_id = @IPS_GetObjectIDByIdent($identifier, $parent_id);
+        //rbo
+        $this->_log('HomeConnect', "CreateVariableByIdentifier, Variablenname: >".$name. "< Wert: >" .$value. "<");
 
         // set type of variable
         $type = $this->GetVariableType($value);
+        //rbo
+        $this->_log('HomeConnect', "CreateVariableByIdentifier, Variablentyp: ". $type);
 
         // if variable doesn't exist, create it!
         if ($variable_id === false) {
@@ -176,6 +181,9 @@ trait ModuleHelper
             // create variable
             $variable_id = IPS_CreateVariable($type);
             IPS_SetParent($variable_id, $parent_id);
+            //rbo
+            //echo "CreateVariableByIdentifier, variable_id: ".$variable_id. " identifier: ".$identifier."\n";
+            $this->_log('HomeConnect', "CreateVariableByIdentifier, variable_id: >".$variable_id. "< identifier: >".$identifier. "<");
             IPS_SetIdent($variable_id, $identifier);
 
             // hide visibility
@@ -198,10 +206,15 @@ trait ModuleHelper
                     : $this->_getPrefix() . '.' . $this->profile_mappings[$name];
 
                 // create profile, if not exists
+                    //rbo
+                    //echo "CreateVariableByIdentifier, Suche Profilid ".$profile_id."\n";
                 if (!IPS_VariableProfileExists($profile_id)) {
+                    //rbo
+                    //echo "CreateVariableByIdentifier, Profile wird neu angelegt\n";
                     $this->CreateCustomVariableProfile($profile_id, $this->profile_mappings[$name]);
                 }
-
+                //rbo
+                //echo "CreateVariableByIdentifier, variable_id: ".$variable_id. " profile_id: ".$profile_id."\n";
                 IPS_SetVariableCustomProfile($variable_id, $profile_id);
             }
         }
@@ -341,16 +354,23 @@ trait ModuleHelper
      */
     private function GetVariableType($value)
     {
+        $this->_log('HomeConnect', "GetVariableType, value: >".$value. "<");        
+        /*
+        if ($value==0) {
+            //sometimes function returns type=2 for 0
+            $type = 1;
+        } 
+        else*/
         if (is_bool($value)) {
             $type = 0;
-        } else if (is_float($value)) {
-            $type = 2;
         } else if (is_int($value) || (intval($value) === $value)) {
             $type = 1;
+        } else if (is_float($value)) {
+            $type = 2;
         } else {
             $type = 3;
         }
-
+    
         return $type;
     }
 

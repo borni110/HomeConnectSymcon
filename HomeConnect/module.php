@@ -143,6 +143,7 @@ class HomeConnect extends Module
             // parse devices
             if (isset($devices) && is_array($devices)) {
                 // loop devices & attach them
+                //print_r($devices);
                 foreach ($devices AS $device) {
                     // attach device
                     $this->devices[$device['haId']] = [
@@ -154,13 +155,24 @@ class HomeConnect extends Module
 
                     // get default settings
                     $settings = HomeConnectConstants::settings($device['type']);
-
+                    /*
+                    echo "settings:\n";
+                    print_r($settings);
+                    */
                     // attach all available options
                     if (!in_array($device['type'], ['FridgeFreezer'])) {
                         if ($options = $this->Api('homeappliances/' . $device['haId'] . '/programs/selected/options')) {
+                            /*
+                            echo "options:\n";
+                            print_r($options);
+                            */
                             $this->_log('HomeConnect Options', $options);
                             foreach ($options AS $option) {
-                                $name = $option['name'];
+                                if (isset($option['name'])){
+                                    $name = $option['name'];
+                                }else{
+                                     $name="";
+                                }
                                 $map = $this->_map($device['type'], $option);
 
                                 // append settings
@@ -269,6 +281,10 @@ class HomeConnect extends Module
 
             // create device variables
             $position = 0;
+            //rbo
+            echo "SaveDevices, Array variables:";
+            print_r($variables);
+            echo "\n";
             foreach ($variables AS $key => $value) {
                 $identifier = $instance_id . '_' . $key;
 

@@ -17,19 +17,20 @@ class HomeConnectConstants
                 'availability' => [
                     'Dishwasher',
                     'Top',
-                    'Hood'
+                    'Hood',
+                    'Hob'
                 ]
             ],
             'BSH.Common.EnumType.PowerState.On' => [
                 'value' => [
                     'name' => 'On',
-                    'value' => 1,
+                    'value' => 1
                 ]
             ],
             'BSH.Common.EnumType.PowerState.Standby' => [
                 'value' => [
                     'name' => 'Standby',
-                    'value' => 2,
+                    'value' => 2
                 ],
                 'availability' => [
                     'Oven',
@@ -790,6 +791,7 @@ class HomeConnectConstants
         ]
     ];
     const LaundryCare_Washer_Option_Prewash = 'Prewash';
+    const LaundryCare_Washer_Option_WaterPlus ='Wasser Plus';
     const LaundryCare_Washer_Option_IDos1DosingLevel = [
         'name' => 'IDos1DosingLevel',
         'values' => [
@@ -869,6 +871,33 @@ class HomeConnectConstants
     // options
     const Cooking_Common_Option_Hood_VentingLevel = 'Venting Level';
     const Cooking_Common_Option_Hood_IntensiveLevel = 'Intensive Level';
+
+
+    /**
+     * Hob
+     *  
+     */
+    const Cooking_Hob_Option_ZoneSelector = 'Zonenauswahl';
+    const Cooking_Hob_Option_PowerLevel = 'Leistungsstufe';
+    const Cooking_Hob_Option_JoinZone = 'Zone zusammenschalten';
+
+    /*
+    "key": "Cooking.Hob.Option.ZoneSelector",
+    "value": "Cooking.Hob.EnumType.ZoneSelector.FrontLeft",
+    "displayvalue": "Vorne links"
+
+
+    "key": "Cooking.Hob.Option.PowerLevel",
+    "value": "Cooking.Hob.EnumType.PowerLevel.Off",
+    "name": "Leistungsstufe",
+    "displayvalue": "0 "
+
+
+    "key": "Cooking.Hob.Option.JoinZone",
+    "value": false,
+    "name": "Zone zusammenschalten"
+    */
+
 
     /**
      * Default settings by type
