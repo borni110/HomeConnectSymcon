@@ -261,6 +261,7 @@ trait HomeConnectHelper
     {
         // get selected or active options
         $status = $this->Api('homeappliances/' . $haId . '/status');
+        $this->_log('HomeConnect Status', "status: ".$status);
         if (isset($status)) {
             foreach ($status AS $state) {
                 $map = $this->_map('dummy', $state);
@@ -574,6 +575,10 @@ trait HomeConnectHelper
             'value' => $setting['value']
         ];
 
+
+         //rbo
+         //echo "default mapping\n";
+        //var_dump($data);
         /*
         echo "Gerätetyp: " .$type."\n";
         echo "1. Array data[]: ";
@@ -588,6 +593,9 @@ trait HomeConnectHelper
                     'name' => $mapper
                 ];
             }
+            //rbo
+            //echo "check for valid mapper\n";
+            //var_dump($mapper);
 
             // convert key to human readable name
             $data['key'] = $mapper['name'];
@@ -646,7 +654,7 @@ trait HomeConnectHelper
                     print_r($data['value']);
                     echo "\n";
                     */
-                    
+
                     $data['value'] = $this->Translate($data['custom_profile'][$data['value']]);
                     $data['custom_profile'] = '~String';
                 }

@@ -214,7 +214,7 @@ trait ModuleHelper
                     $this->CreateCustomVariableProfile($profile_id, $this->profile_mappings[$name]);
                 }
                 //rbo
-                //echo "CreateVariableByIdentifier, variable_id: ".$variable_id. " profile_id: ".$profile_id."\n";
+                $this->_log('HomeConnect', "CreateVariableByIdentifier, variable_id: >".$variable_id. " profile_id: ".$profile_id."\n");
                 IPS_SetVariableCustomProfile($variable_id, $profile_id);
             }
         }

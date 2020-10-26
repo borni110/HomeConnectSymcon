@@ -349,6 +349,8 @@ class HomeConnectDevice extends Module
                             }
                             // set value
                             if (!is_null($value)) {
+                                //LogMessage_Wert($this->GetIDForIdent($ident),$value);
+                                $this->_log('HomeConnect Daten', "Variable: ".$this->GetIDForIdent($ident)." Value: ".$value);
                                 SetValue($this->GetIDForIdent($ident), $value);
                             }
                         }
@@ -402,6 +404,15 @@ class HomeConnectDevice extends Module
             }
         }
     }
+
+    public function LogMessage_Wert($name, $daten)
+	{
+	    // Fehlermeldung nach logs schreiben
+	    $log = IPS_GetKernelDir()."logs\\Homeconnect.txt";
+	    $fp = fopen($log, "a");
+	    fwrite($fp, date("H:i:s ").$name.": ".$daten."\r\n");
+	    fclose($fp);
+	}
 
     /**
      * Connect to HomeConnect's event channel stream
@@ -813,4 +824,6 @@ class HomeConnectDevice extends Module
             ]
         ];
     }
+
+
 }

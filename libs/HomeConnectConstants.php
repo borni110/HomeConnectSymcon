@@ -979,6 +979,9 @@ class HomeConnectConstants
         ],
         'Cooktop' => [
             'BSH.Common.Setting.PowerState' => 'BSH.Common.EnumType.PowerState.On'
+        ],
+        'Hob' => [
+            'BSH.Common.Option.Duration' => 0
         ]
     ];
 
@@ -1023,7 +1026,6 @@ class HomeConnectConstants
                 ];
             }
         }
-
-        return $settings;
+       return $settings;
     }
 }
