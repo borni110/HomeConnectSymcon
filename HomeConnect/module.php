@@ -119,6 +119,7 @@ class HomeConnect extends Module
 
         // dump devices, if requested
         if ($dump_devices) {
+            //RBO: am Ende wieder einkommentieren
             var_dump($this->devices);
             exit;
         }
@@ -137,13 +138,11 @@ class HomeConnect extends Module
     {
         // read config
         $this->ReadConfig();
-
         // get devices
         if ($devices = $this->Api('homeappliances')) {
             // parse devices
             if (isset($devices) && is_array($devices)) {
                 // loop devices & attach them
-                //print_r($devices);
                 foreach ($devices AS $device) {
                     // attach device
                     $this->devices[$device['haId']] = [
@@ -153,20 +152,29 @@ class HomeConnect extends Module
                         'Settings' => []
                     ];
 
-                    // get default settings
+                //rbo
+                //echo "Anzahl Geräte: ".$this->devices_found."\n";
+                //var_dump($this->devices);
+
+                // get default settings
                     $settings = HomeConnectConstants::settings($device['type']);
-                    /*
-                    echo "settings:\n";
-                    print_r($settings);
-                    */
+                    //rbo
+                    //$this->_log('HomeConnect ' . $device['type'], "GetDevices, Default settings:");
+                    //$this->_log('HomeConnect ' .$device['type'], json_encode($settings));                    
+                    //rbo
+                    //echo "Default Settings für ".$device['type']."\n";
+                    //var_dump($settings);    
+                    
+                    //var_dump($this->devices);
+
                     // attach all available options
                     if (!in_array($device['type'], ['FridgeFreezer'])) {
                         if ($options = $this->Api('homeappliances/' . $device['haId'] . '/programs/selected/options')) {
-                            /*
-                            echo "options:\n";
-                            print_r($options);
-                            */
-                            $this->_log('HomeConnect Options', $options);
+                            //rbo
+                            //$this->_log('HomeConnect Options', $options);
+                            //echo "Options über API geladen\n";
+                            //var_dump($options);
+                            //var_dump($settings); 
                             foreach ($options AS $option) {
                                 if (isset($option['name'])){
                                     $name = $option['name'];
@@ -175,6 +183,10 @@ class HomeConnect extends Module
                                 }
                                 $map = $this->_map($device['type'], $option);
 
+                                //rbo
+                                //echo "map option\n";
+                                //var_dump($map);
+            
                                 // append settings
                                 $this->devices[$device['haId']]['Settings'][] = [
                                     'key' => $map['key'],
@@ -187,6 +199,12 @@ class HomeConnect extends Module
                             }
                         }
                     }
+
+                    //rbo
+                    //echo "Options hinzugefügt \n";
+                    //var_dump($this->devices);
+                    //var_dump($settings);    
+
                     $this->_log('HomeConnect Options', $this->devices[$device['haId']]['Settings']);
                     // merge with current settings
                     if ($current_settings = $this->Api('homeappliances/' . $device['haId'] . '/settings')) {
@@ -256,6 +274,8 @@ class HomeConnect extends Module
                         }
                     }
 
+                    //rbo
+                    //$this->_log('HomeConnect Device found' , json_encode($device));
                     // increase devices found
                     $this->devices_found++;
                 }
@@ -282,9 +302,9 @@ class HomeConnect extends Module
             // create device variables
             $position = 0;
             //rbo
-            echo "SaveDevices, Array variables:";
-            print_r($variables);
-            echo "\n";
+            $this->_log('HomeConnect ' . $variables['ID'], "SaveDevices, Array variables:");
+            $this->_log('HomeConnect ' . $variables['ID'], json_encode($variables));
+            
             foreach ($variables AS $key => $value) {
                 $identifier = $instance_id . '_' . $key;
 
@@ -478,7 +498,7 @@ class HomeConnect extends Module
                 IPS_SetVariableProfileValues($profile_id, 30, 250, 1);
                 break;
             case 'Duration.Fixed':
-                IPS_CreateVariableProfile($profile_id, 1); // integer
+                IPS_CreateVariableProfile($profile_id, 2); // float
                 IPS_SetVariableProfileText($profile_id, '', ' Min.');
                 IPS_SetVariableProfileIcon($profile_id, 'Clock');
                 IPS_SetVariableProfileValues($profile_id, 30, 250, 1);
